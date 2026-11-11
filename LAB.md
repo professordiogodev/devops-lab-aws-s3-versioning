@@ -2,9 +2,15 @@
 
 ## The situation
 
-It is the first working day of the month. Somebody on the Clippy team ran a script against the wrong bucket: the monthly report was overwritten with garbage and the customer list was deleted. The finance team is waiting for the report and the CEO is asking how this is possible.
+> **The Clippy Monthly** - newsletter of the platform team, month-end edition
+>
+> *This month's story: how a script ate the books.*
 
-You are going to find out two things the hard way. First, **what S3 does by default** (and why it is not a backup). Second, what changes when you turn on **versioning**, and how you recover from the same accident, safely, the second time. Then you will set the rules that keep a versioned bucket from growing without limit.
+It is the first working day of the month. Somebody ran a script against the wrong bucket: the monthly report was overwritten with garbage and the customer list was deleted. Finance is waiting for the report, and the CEO is asking how this is possible.
+
+*Aside, for the people who are about to say "but S3 is durable": durable is not the same as undoable. S3 will keep your bytes safe for years and will also keep your mistakes safe, in the same way.*
+
+In this issue's try-it-yourself, you reproduce the accident on a bucket with **no versioning** and see what S3 does by default. Then you switch **versioning** on, repeat the accident, and recover both files from their history, safely. Last, you set the rules that keep a versioned bucket from growing without limit.
 
 > **Your mission**
 > - Reproduce the accident on a bucket **without** versioning and prove the files are gone
