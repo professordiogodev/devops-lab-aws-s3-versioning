@@ -33,7 +33,7 @@ In this issue's try-it-yourself, you reproduce the accident on a bucket with **n
 2. Look at the bucket in the **console** and with the CLI. What does it have and what does it not have?
 
 ```bash
-B=clippy-reports-$(aws sts get-caller-identity --query Account --output text)
+B=clippy-reports-$(./.lab/handle.sh)-$(aws sts get-caller-identity --query Account --output text)
 aws s3 ls s3://$B --recursive
 aws s3api get-bucket-versioning --bucket $B
 aws s3api list-object-versions --bucket $B
@@ -101,7 +101,7 @@ Versioning keeps everything. Without rules the bucket grows forever. Do all of t
 - **Default encryption**: SSE-S3 (AES256) with a bucket key.
 - **Block public access**: all four options on.
 - **A lifecycle rule** for the whole bucket: expire **noncurrent** versions after 90 days, and abort **incomplete multipart uploads** after 7 days.
-- **Tag** the bucket `lab = aws-s3-versioning`.
+- **Tag** the bucket `lab = aws-s3-versioning` and `student = <your handle>`. Run `./.lab/handle.sh` to see your handle; `setup.sh` already used it in the bucket name.
 
 Optional exploration: create a **presigned URL** for the report that works for 60 seconds, open it, wait, open it again.
 

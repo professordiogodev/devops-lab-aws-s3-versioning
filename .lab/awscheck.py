@@ -3,7 +3,8 @@ import json, os, subprocess, sys
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 os.chdir(ROOT)
 ACCOUNT = sys.argv[1]
-B = "clippy-reports-" + ACCOUNT
+H = sys.argv[2]
+B = "clippy-reports-" + H + "-" + ACCOUNT
 passed = failed = 0
 
 
@@ -41,7 +42,7 @@ mp = any(r.get("Status") == "Enabled" and 0 < r.get("AbortIncompleteMultipartUpl
 check("lifecycle: old (noncurrent) versions expire after 30 to 365 days", nc)
 check("lifecycle: incomplete multipart uploads are aborted within 7 days", mp)
 tags = {t["Key"]: t["Value"] for t in (aws("s3api", "get-bucket-tagging", "--bucket", B) or {}).get("TagSet", [])}
-check("the bucket is tagged lab=aws-s3-versioning", tags.get("lab") == "aws-s3-versioning")
+check("the bucket is tagged lab=aws-s3-versioning", tags.get("lab") == "aws-s3-versioning" and tags.get("student") == H)
 
 print("== The recovery ==")
 check("reports/2026-10.csv holds the ORIGINAL report again", body("reports/2026-10.csv") == "month,links_created\n2026-10,1200\n", "restore the good version")
